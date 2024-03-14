@@ -1,0 +1,1 @@
+This directory contains a script that solves the Lockboxes problem.
