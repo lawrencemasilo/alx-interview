@@ -1,4 +1,13 @@
+#!/usr/bin/python3
+"""
+handles the lockboxes problem
+"""
+
+
 def canUnlockAll(boxes):
+    """
+    checks if all boxes can be opened
+    """
     if boxes:
         visited = [False] * (len(boxes))
         visited[0] = True
@@ -12,7 +21,6 @@ def canUnlockAll(boxes):
                     if 0 <= n < (len(boxes)):
                         visited[n] = True
                         queue.append(n)
-        
         return all(visited)
-    
+
     return False
