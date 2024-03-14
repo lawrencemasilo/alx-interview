@@ -17,7 +17,7 @@ def canUnlockAll(boxes):
             node = queue.pop(0)
 
             for n in boxes[node]:
-                if n not in visited:
+                if 0 <= key < (len(boxes)) and not visited[n]:
                     visited[n] = True
                     queue.append(n)
         return all(visited)
