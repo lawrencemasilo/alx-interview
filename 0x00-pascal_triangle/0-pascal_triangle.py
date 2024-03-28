@@ -1,4 +1,12 @@
+#!/usr/bin/python3
+"""
+handles the Pascal's Triangle problem
+"""
+
+
 def pascal_triangle(n):
+    """returns a list of lists of integers representing the Pascal’s triangle
+    """
     if n > 0:
         triangle = [[1]]
 
