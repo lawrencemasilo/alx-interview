@@ -11,8 +11,8 @@ def validUTF8(data):
     """
     def countbytes(byte):
         """
-	returns the number of leading ones in a byte
-	"""
+        returns the number of leading ones in a byte
+        """
         count = 0
         mask = 1 << 7
         while byte & mask:
@@ -22,7 +22,7 @@ def validUTF8(data):
 
     def isValid(start, length):
         """
-	verifies whether a sequence of bytes is in the given data
+        verifies whether a sequence of bytes is in the given data
         """
         if length == 1:
             return True
