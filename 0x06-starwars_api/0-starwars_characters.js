@@ -1,30 +1,32 @@
 #!/usr/bin/node
 
-const axios = require('axios');
+const request = require('request');
+const url = `https://swapi.dev/api/films/${process.argv[2]}/`;
 
-function getCharacters (movieId) {
-  const url = `https://swapi.dev/api/films/${movieId}/`;
+request(url, (error, response, body) => {
+  if (error) {
+    console.error('Error:', error);
+  } else if (response.statusCode !== 200) {
+    console.error('Status:', response.statusCode);
+  } else {
+    const film = JSON.parse(body);
+    const characters = film.characters;
 
-  axios.get(url)
-    .then(response => {
-      response.data.characters.forEach(characterUrl => {
-        axios.get(characterUrl)
-          .then(characterResponse => {
-            console.log(characterResponse.data.name);
-          })
-          .catch(error => {
-            console.error('Error: ', error);
-          });
-      });
-    })
-    .catch(error => {
-      console.error('Error: ', error);
+    getCharacterNames(characters);
+  }
+});
+
+function getCharacterNames (characters) {
+  characters.forEach(characterUrl => {
+    request(characterUrl, (error, response, body) => {
+      if (error) {
+        console.error('Error:', error);
+      } else if (response.statusCode !== 200) {
+        console.error('Status:', response.statusCode);
+      } else {
+        const character = JSON.parse(body);
+        console.log(character.name);
+      }
     });
+  });
 }
-
-if (process.argv.length !== 3) {
-  console.log('Usage: node 0-starwars_characters.js [Movie ID]');
-  process.exit(1);
-}
-
-getCharacters(process.argv[2]);
