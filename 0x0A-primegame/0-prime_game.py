@@ -52,20 +52,19 @@ def isWinner(x, nums):
 
         return "Ben"
 
-    if nums:
-        marias = 0
-        bens = 0
+    marias = 0
+    bens = 0
 
-        for n in nums:
-            winner = prime_game(n)
-            if winner == "Ben":
-                bens += 1
-            else:
-                marias += 1
+    for n in nums:
+        winner = prime_game(n)
+        if winner == "Ben":
+            bens += 1
+        else:
+            marias += 1
 
-        if bens > marias:
-            return "Ben"
-        if marias > bens:
-            return "Maria"
+    if bens > marias:
+        return "Ben"
+    elif marias > bens:
+        return "Maria"
 
     return None
