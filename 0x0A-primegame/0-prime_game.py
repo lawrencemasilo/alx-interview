@@ -8,63 +8,58 @@ def isWinner(x, nums):
     """
     returns the winner
     """
-    def sieve_of_eratosthenes(n):
-        """
-        Finds all primes smaller than n
-        """
-        prime = [True] * (n + 1)
-        p = 2
-        while (p * p <= n):
-            if prime[p] is True:
-                for i in range(p * p, n + 1, p):
-                    prime[i] = False
-            p += 1
-        set_of_prime = set()
-        for p in range(2, n + 1):
-            if prime[p] is True:
-                set_of_prime.add(p)
-        return set_of_prime
+
+    if not nums or x < 1:
+        return None
 
     max_num = max(nums)
-    set_of_prime = sieve_of_eratosthenes(max_num)
 
-    def prime_game(n):
+    is_prime = [True] * (max_num + 1)
+    is_prime[0] = is_prime[1] = False
+    p = 2
+    while (p * p <= max_num):
+        if is_prime[p]:
+            for i in range(p * p, max_num + 1, p):
+                is_prime[i] = False
+        p += 1
+
+    def determine_winner(n):
         """
         Simulates the game and returns the winner
         """
-        if n < 2:
-            return "Ben"
-        primes = [prime for prime in set_of_prime if prime <= n]
+
+        primes = [i for i in range(2, n + 1) if is_prime[i]]
         if not primes:
-            return "Ben"
+            return 'Ben'
 
-        player = 0
-        available = [True] * (n + 1)
+        rounds = 0
+        remaining = set(range(1, n + 1))
 
-        for p in primes:
-            if available[p]:
-                player = 1 - player
-                for i in range(p, n + 1, p):
-                    available[i] = False
+        while primes:
+            prime = primes.pop(0)
+            multiples = set(range(prime, n + 1, prime))
+            remaining -= multiples
+            primes = [p for p in primes if p in remaining]
+            rounds += 1
 
-        if player == 0:
-            return "Maria"
-
-        return "Ben"
-
-    marias = 0
-    bens = 0
-
-    for n in nums:
-        winner = prime_game(n)
-        if winner == "Ben":
-            bens += 1
+        if rounds % 2 == 0:
+            return 'Ben'
         else:
-            marias += 1
+            return 'Maria'
 
-    if bens > marias:
-        return "Ben"
-    elif marias > bens:
-        return "Maria"
+    ben = 0
+    maria = 0
+
+    for num in nums:
+        winner = determine_winner(num)
+        if winner == 'Ben':
+            ben += 1
+        else:
+            maria += 1
+
+    if maria > ben:
+        return 'Maria'
+    elif ben > maria:
+        return 'Ben'
 
     return None
