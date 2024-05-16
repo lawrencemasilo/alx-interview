@@ -23,21 +23,21 @@ def isWinner(x, nums):
                 is_prime[i] = False
         p += 1
 
-    def determine_winner(n):
+    def play_game(num):
         """
         Simulates the game and returns the winner
         """
 
-        primes = [i for i in range(2, n + 1) if is_prime[i]]
+        primes = [i for i in range(2, num + 1) if is_prime[i]]
         if not primes:
             return 'Ben'
 
         rounds = 0
-        remaining = set(range(1, n + 1))
+        remaining = set(range(1, num + 1))
 
         while primes:
             prime = primes.pop(0)
-            multiples = set(range(prime, n + 1, prime))
+            multiples = set(range(prime, num + 1, prime))
             remaining -= multiples
             primes = [p for p in primes if p in remaining]
             rounds += 1
@@ -51,7 +51,7 @@ def isWinner(x, nums):
     maria = 0
 
     for num in nums:
-        winner = determine_winner(num)
+        winner = play_game(num)
         if winner == 'Ben':
             ben += 1
         else:
@@ -61,5 +61,5 @@ def isWinner(x, nums):
         return 'Maria'
     elif ben > maria:
         return 'Ben'
-
-    return None
+    else:
+        return None
